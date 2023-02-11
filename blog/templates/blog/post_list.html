@@ -1,22 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Página Principal</title>
-  </head>
-  <body>
-    <header>
-      <a href="/">Home</a>
-    </header>
-
-    {% for post in posts %}
-    <article>
-      <h2><a href="">{{ post.title }}</a></h2>
-      <p>{{ post.text|linebreaksbr }}</p>
-      <time>published: {{post.published_date}}</time>
-    </article>
-    {% endfor %}
-  </body>
-</html>
+{% extends 'blog/base.html' %} {% block content %}
+<main class="posts-container">
+  {% for post in posts %}
+  <article class="post">
+    <h2><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h2>
+    <time class="date">publicado em: {{post.published_date}}</time>
+    <p>{{ post.text|linebreaksbr }}</p>
+  </article>
+  {% endfor %}
+</main>
+{% endblock %}
