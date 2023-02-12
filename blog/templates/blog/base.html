@@ -24,7 +24,13 @@
   <body>
     <header class="page-header">
       <div class="header-container">
+        <h1>Meu Blog</h1>
         <a href="/">Home</a>
+        {% if user.is_authenticated %}
+        <a href="{% url 'post_new' %}">
+          {% include './icons/file-earmark-plus.svg' %}
+        </a>
+        {% endif %}
       </div>
     </header>
 
