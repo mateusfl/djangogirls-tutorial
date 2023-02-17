@@ -5,4 +5,7 @@ from .models import Post
 class PostForm(forms.ModelForm):
     class Meta:
         model = Post
-        fields = ("title", "text")
+        widgets = {
+            "published_date": forms.DateTimeInput(attrs={"type": "datetime-local"}),
+        }
+        fields = ("title", "text", "published_date", "tags")

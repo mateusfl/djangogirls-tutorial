@@ -1,11 +1,35 @@
-{% extends 'blog/base.html' %} {% block content %}
-<main class="posts-container">
-  {% for post in posts %}
-  <article class="post">
-    <h2><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h2>
-    <time class="date">publicado em: {{post.published_date}}</time>
-    <p>{{ post.text|linebreaksbr }}</p>
-  </article>
-  {% endfor %}
-</main>
+{% extends 'blog/base.html' %}
+{% load blog_extras %}
+
+{% block content %}
+  <main class="posts-container">
+    {% if user.is_authenticated %} 
+      {% for post in to_publish %}
+        <article class="post-to-publish">
+          <h2><a href="{% url 'post_detail' slug=post.slug %}">{{ post.title }}</a></h2>
+          <div class="tags_container">
+            tags: 
+            {% for tag in post.tags|split:"," %}
+              <a class="tag" href="/?tags={{tag}}">{{ tag }}</a>
+            {% endfor %}
+          </div>
+          <time class="date">para publicar em: {{post.published_date}}</time>
+          <p class="post-content-preview">{{ post.text|linebreaksbr }}</p>
+        </article>
+      {% endfor %}
+    {% endif %}
+    
+    {% for post in posts %}
+      <article class="post">
+        <h2><a href="{% url 'post_detail' slug=post.slug %}">{{ post.title }}</a></h2>
+        <div class="tags_container">
+          tags: 
+          {% for tag in post.tags|split:"," %}
+            <a class="tag" href="/?tags={{tag}}">{{ tag }}</a>
+          {% endfor %}
+        </div>
+        <p class="post-content-preview">{{ post.text|linebreaksbr }}</p>
+      </article>
+    {% endfor %}
+  </main>
 {% endblock %}
